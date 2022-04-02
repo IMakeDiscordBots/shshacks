@@ -1,2 +1,2 @@
 # shshacks
-idk what this project does
+This is a tower defense game
