@@ -1,9 +1,9 @@
 package game_objects;
 
-public class RoadState {
+public class State {
     private int index;
-    public RoadState() {}
-    public RoadState(int index) {
+    public State() {}
+    public State(int index) {
         this.index = index;
     }
     public void setIndex(int i) {

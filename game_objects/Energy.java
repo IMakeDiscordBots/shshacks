@@ -23,7 +23,7 @@ public class Energy extends GameObject{ //pollution, happy, energy
 
     
 
-    public int getPollution(){
+    public static int getPollution(){
         return pollution;
     }
     public int getHappy(){

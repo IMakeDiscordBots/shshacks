@@ -1,29 +1,25 @@
 package game_objects;
 
-public class ResidentialBuilding extends GameObject{ //pollution, population
-    
+public class CommercialBuilding extends GameObject{ //pollution, population
     private int a, b;
-    private static int population;
     private static int numBuild;
     private static int pollution;
+    private int income;
     private State state;
     private boolean high;
-
-    public ResidentialBuilding(int x, int y, boolean high) {
-        super(x, y); 
+    public CommercialBuilding(int x, int y, boolean high){
+        super(x, y);
         a = x;
         b = y;
-        population+=10;
         numBuild++;
         pollution+=20;
         state = new State(0);
         this.high = high;
     }
-    public ResidentialBuilding(int x, int y, boolean high, State s) {
+    public CommercialBuilding(int x, int y, boolean high, State s){
         super(x, y);
         a = x;
         b = y;
-        population+=10;
         numBuild++;
         pollution+=20;
         state = s;
@@ -33,13 +29,8 @@ public class ResidentialBuilding extends GameObject{ //pollution, population
     public boolean isHigh() {
         return high;
     }
-
-    public void incPop(int x){
-        population+=x*numBuild;
-    }
-
-    public static int getPop(){
-        return population;
+    public int getIndex() {
+        return state.getIndex();
     }
 
     public static int getPollution(){
@@ -50,8 +41,8 @@ public class ResidentialBuilding extends GameObject{ //pollution, population
         return numBuild;
     }
 
-    public int getIndex() {
-        return state.getIndex();
+    public int getIncome() {
+        return income;
     }
     
     public void setIndex(int i) {

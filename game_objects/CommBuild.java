@@ -5,6 +5,7 @@ public class CommBuild extends GameObject{ //happy, pollution
     private static int happiness;
     private static int numBuild;
     private static int pollution;
+    private static int revenue;
     private boolean visible = false;
 
     public CommBuild(int x, int y){
@@ -15,6 +16,7 @@ public class CommBuild extends GameObject{ //happy, pollution
         numBuild++;
         pollution+=30;
         visible = true;
+        revenue+=5;
     }
 
     public int getHap(int x){
@@ -23,7 +25,7 @@ public class CommBuild extends GameObject{ //happy, pollution
 
     
 
-    public int getPollution(){
+    public static int getPollution(){
         return pollution;
     }
 
@@ -33,6 +35,9 @@ public class CommBuild extends GameObject{ //happy, pollution
 
     public void remove(){
         visible = false;
+    }
+    public static int getRev(){
+        return revenue;
     }
 
 }

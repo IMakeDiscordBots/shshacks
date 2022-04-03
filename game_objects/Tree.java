@@ -25,4 +25,8 @@ public class Tree extends GameObject{ //pollution
         }
         return visible;
     }
+
+    public static int getPollution(){
+        return pollution;
+    }
 }

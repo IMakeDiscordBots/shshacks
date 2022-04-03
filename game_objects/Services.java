@@ -19,7 +19,7 @@ public class Services extends GameObject{  //happy, pollution
         return happiness;
     }
 
-    public int getPollution(){
+    public static int getPollution(){
         return pollution;
     }
 
