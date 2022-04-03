@@ -1,5 +1,5 @@
 package game_objects;
-public class Tree extends GameObject{
+public class Tree extends GameObject{ //pollution
     private boolean visible = false;
     private int health;
     private int appearance;

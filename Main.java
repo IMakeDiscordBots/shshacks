@@ -19,7 +19,7 @@ import java.awt.event.KeyAdapter;
 
 
 public class Main implements MouseInputListener, MouseListener {
-	static int money = 500;
+	static int money = 50000;
 
 	static int roadRotation = 0;
 	
@@ -164,7 +164,7 @@ public class Main implements MouseInputListener, MouseListener {
 			if(!already) {
 				System.out.println("Placed block");
 				placingRoad = false;
-				money-=100;
+				money-=10;
 				Road r = new Road(coords[0], coords[1], roadRotation);
 				grids.put(coords, r);
 				grid[coords[0]][coords[1]] = r;
@@ -199,27 +199,40 @@ public class Main implements MouseInputListener, MouseListener {
 		// TODO Auto-generated method stub
 	}
 
-	public void pathfind(GameObject a, GameObject b) { // uhhhhhhh help
+	public void pathfind(Car a, GameObject b) { // uhhhhhhh help
 		int w = a.getX();
 		int x = a.getY();
 		int y = b.getX();
 		int z = b.getY();
 
-		int chX = Math.abs(w - y) % 30;
-		int chY = Math.abs(x - z) % 30;
+		int chX = w-y;
+		int chY = x-z;
+		if (w-y<0){
+			chX*=-1;
+		}
+		if (x-z<0){
+			chY*=-1;
+		}
 
-		// shorte
+		//if road present
+		//move horizontally
+		//else
+		//move vertically
+		//repeat
+		//
+		// 
 	}
 
 	public static void initRoads() {
-		ImageIcon icon = new ImageIcon("game_objects/images/roads/twowayV.png");
+		ImageIcon icon = new ImageIcon("game_objects/images/roads/roadTwowayV.png");
 		up = icon.getImage();
 		roads.add(up);
-		icon = new ImageIcon("game_objects/images/roads/twowayH.png");
+		icon = new ImageIcon("game_objects/images/roads/roadTwowayH.png");
 		side = icon.getImage();
 		roads.add(side);
 
 		// Corners
+		//2 - leftUp, 3 - rightUp, 4 - rightDown, 5 - leftDown
 		icon = new ImageIcon("game_objects/images/roads/roadLeftUp.png");
 		leftUp = icon.getImage();
 		roads.add(leftUp);
@@ -234,21 +247,22 @@ public class Main implements MouseInputListener, MouseListener {
 		roads.add(leftDown);
 
 		// 3-way intersections
-		icon = new ImageIcon("game_objects/images/roads/threewayDown.png");
+		//6 - threeDown, 7 - threeUp, 8 - threeRight, 9 - threeLeft
+		icon = new ImageIcon("game_objects/images/roads/roadThreewayDown.png");
 		threeDown = icon.getImage();
 		roads.add(threeDown);
-		icon = new ImageIcon("game_objects/images/roads/threewayUp.png");
+		icon = new ImageIcon("game_objects/images/roads/roadThreewayUp.png");
 		threeUp = icon.getImage();
 		roads.add(threeUp);
-		icon = new ImageIcon("game_objects/images/roads/threewayRight.png");
+		icon = new ImageIcon("game_objects/images/roads/roadThreewayRight.png");
 		threeRight = icon.getImage();
 		roads.add(threeRight);
-		icon = new ImageIcon("game_objects/images/roads/threewayLeft.png");
+		icon = new ImageIcon("game_objects/images/roads/roadThreewayLeft.png");
 		threeLeft = icon.getImage();
 		roads.add(threeLeft);
 
 		// 4-way intersections
-		icon = new ImageIcon("game_objects/images/roads/fourway.png");
+		icon = new ImageIcon("game_objects/images/roads/roadFourway.png");
 		fourway = icon.getImage();
 		roads.add(fourway);
 

@@ -1,5 +1,5 @@
 package game_objects;
-public class Services extends GameObject{ 
+public class Services extends GameObject{  //happy, pollution
     
     private int a, b;
     private static int happiness;

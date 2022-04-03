@@ -1,5 +1,5 @@
 package game_objects;
-public class GameObject {
+public class GameObject { 
     private int[] pos = new int[2];
     private double cooldown;
     public GameObject(int x, int y){

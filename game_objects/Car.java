@@ -10,7 +10,7 @@ public class Car extends GameObject {
         b = y;
         visible = true;
     }
-    
+     
     public void moveL(){
         a-=30;
         if (a<0 || a>1140 || b<0 || b>600){

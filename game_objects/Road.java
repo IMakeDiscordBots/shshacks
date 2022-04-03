@@ -3,9 +3,9 @@ package game_objects;
 import javax.swing.ImageIcon;
 import java.awt.*;
 
-public class Road extends GameObject {
+public class Road extends GameObject { //pollution
     public static final int roadRotation = 0;
-	private static int pollution = 20;
+	private static int pollution = 10;
     private RoadState state;
     
     public Road(int x, int y) {
@@ -51,76 +51,77 @@ public class Road extends GameObject {
         }
     }
     public int determine(int coordX, int coordY, GameObject[][] g) {
-        
         int index = 0;
         int connections = 0;
         boolean left = false;
         boolean right = false;
         boolean up = false;
         boolean down = false;
-        if(coordX - 30 >= 0) {
-            if(g[coordX - 30][coordY] instanceof Road) {
+        if((coordX - 30) - (coordX % 30) >= 0) {
+            if(g[coordX - 30 - (coordX % 30)][coordY] instanceof Road) {
                 connections++;
                 left = true;
             }
         }
-        if(coordY - 30 >= 0) {
-            if(g[coordX][coordY - 30] instanceof Road) {
-                connections++;
-                up = true;
-            }
-        }
-        if(coordX + 30 <= 1140) {
-            if(g[coordX + 30][coordY] instanceof Road) {
+        if(coordX + 30 - (coordX % 30) <= 1140) {
+            if(g[coordX + 30 - (coordX % 30)][coordY] instanceof Road) {
                 connections++;
                 right = true;
             }
         }
+        if(coordY - 30 - (coordY % 30) >= 0) {
+            if(g[coordX][coordY - 30 - (coordY % 30)] instanceof Road) {
+                connections++;
+                up = true;
+            }
+        
         if(coordY + 30 <= 600) {
-            if(g[coordX][coordY + 30] instanceof Road) {
+            if(g[coordX][coordY + 30 - (coordY % 30)] instanceof Road) {
                 connections++;
                 down = true;
             }
         }
-        if(connections == 4) {
-            index = 10;
+        if(connections == 1) {
+            if(up || down) {
+                index = 0;
+            }
+            else if(left || right) {
+                index = 1;
+            }
+        }
+        else if(connections == 2) {
+            if(up && right) {
+                index = 3;
+            } else if(left && up) {
+                index = 2;
+            } else if(down && right) {
+                index = 4;
+            } else if(down && left) {
+                index = 5;
+            } else {
+                if(up && down) {
+                    index = 0;
+                } else if(left && right) {
+                    index = 1;
+                }
+            }
         }
         else if(connections == 3) {
             if(!up) {
-                index = 9;
+                index = 6;
             } else if(!left) {
                 index = 8;
             } else if(!down) {
                 index = 7;
             } else {
-                index = 6;
+                index = 9;
             }
         }
-        else if(connections == 2) {
-            if(!up && !right) {
-                index = 2;
-            } else if(!left && !up) {
-                index = 4;
-            } else if(!down && !left) {
-                index = 3;
-            } else if(!down && !left) {
-                index = 5;
-            } else {
-                if(!up && !down) {
-                    index = 1;
-                } else {
-                    index = 0;
-                }
-            }
+        else if(connections == 4) {
+            index = 10;
         }
-        else {
-            if(up || down) {
-                index = 0;
-            }
-            else {
-                index = 1;
-            }
-        }
+        // 0 - up, 1 - side, 2 - leftUp, 3 - rightUp, 4 - rightDown, 5 - leftDown, 6 -
+	    // threeDown, 7 - threeUp, 8 - threeRight, 9 - threeLeft, 10 - fourway
         return index;
     }
 }

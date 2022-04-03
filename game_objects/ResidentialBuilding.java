@@ -1,5 +1,5 @@
 package game_objects;
-public class ResidentialBuilding extends GameObject{ 
+public class ResidentialBuilding extends GameObject{ //pollution, population
     
     private int a, b;
     private static int population;
