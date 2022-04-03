@@ -13,7 +13,7 @@ public class Tree extends GameObject{
         pollution -= 10;
     }
     
-    public void chop(int b){
+    public boolean chop(int b){
         health -= 50;
         if (health <= 0){
             visible = false;
@@ -23,5 +23,6 @@ public class Tree extends GameObject{
         else{
             appearance = 1;
         }
+        return visible;
     }
 }

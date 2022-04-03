@@ -1,8 +1,8 @@
 package game_objects;
 public class Car extends GameObject {
     private int a, b;
-    private boolean visible = false;
-
+    //private boolean visible = false;
+    private boolean visible;
 
     public Car(int x, int y){
         super(x, y);
