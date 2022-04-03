@@ -5,7 +5,7 @@ class ClockTask extends TimerTask {
     public void run() {
 
         if(Main.money < 100000) {
-            Main.money += 50+CommercialBuilding.getRevenue();
+            Main.money += 25+CommercialBuilding.getRevenue();
         } else {
             Main.money = 100000;
         }
@@ -33,6 +33,7 @@ class ClockTask extends TimerTask {
         if (Main.population<=0){
             Main.end=true;
         }
+        
         
 
     }

@@ -21,16 +21,16 @@ import java.awt.event.KeyAdapter;
 public class Main implements MouseInputListener, MouseListener {
 	public static ArrayList<Car> carsOnRoad = new ArrayList<Car>();
 	//public static ArrayList<Tree> treesInCity = new ArrayList<Tree>();
-	static int money = 500;
+	static int money = 150;
 	static int pollution = 0;
 	static int population = 100;
 	static String severity = "Clean";
-	static int happy = 100;
+	static int happy = 150;
 	static boolean end = false;
 
 	static int roadRotation = 0;
 	static int lowResIndex = 0;
-	static int highResIndex = 0;
+	static int highResIndex = 0; //ITS A TREE
 	static int lowComIndex = 0;
 	static int highComIndex = 0;
 
@@ -50,7 +50,7 @@ public class Main implements MouseInputListener, MouseListener {
 	boolean placing = false;
 	boolean placingRoad = false;
 	boolean placingLowRes = false;
-	boolean placingHighRes = false;
+	boolean placingHighRes = false; //tree
 	boolean placingLowCom = false;
 	boolean placingHighCom = false;
 	int cursorXCoord = MouseInfo.getPointerInfo().getLocation().x;
@@ -97,7 +97,6 @@ public class Main implements MouseInputListener, MouseListener {
 
 	public class DrawPanel extends JPanel {
 		public void paint(Graphics g) {
-
 			Color grass = new Color(52, 140, 49);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -112,9 +111,9 @@ public class Main implements MouseInputListener, MouseListener {
 			g2d.setFont(new Font("Monospace", Font.BOLD, 25));
 			g2d.setColor(new Color(0, 0, 0));
 			g2d.drawString("$" + money + "", 10, 645);
-			g2d.drawString("Number of People in Your City: " + population, 10, 20);
-			g2d.drawString("The Pollution Level: " + pollution,  10, 50);
-			g2d.drawString("The Happiness Level: " + happy, 10, 80);
+			g2d.drawString("Number of People in Your City: " + population, 10, 50);
+			g2d.drawString("The Pollution Level(based off of API): " + pollution,  10, 80);
+			g2d.drawString("The Happiness Level: " + happy, 10, 110);
 			if (pollution <= 75) {
 				Main.severity = "Clean";
 			} else if (pollution <= 150){
@@ -128,18 +127,34 @@ public class Main implements MouseInputListener, MouseListener {
 				population -= 7;
 				Main.severity = "Very Severe";
 			}
-			g2d.drawString("Severity Level: " + severity, 10, 110);
+			g2d.drawString("Severity Level: " + severity, 10, 140);
 			
+			g2d.setFont(new Font("Monospace", Font.BOLD, 20));
 			g2d.setColor(Color.BLUE);
 			g2d.fillRect(120, 610, 70, 90);
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("Roads", 125, 650);
 			//Low residential
-			g2d.fillRect(200, 610, 70, 90);
+			g2d.setColor(Color.BLUE);
+			g2d.fillRect(200, 610, 200, 90);
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("Residential", 210, 650);
 			//Low commercial
-			g2d.fillRect(280, 610, 70, 90);
-			//High Residential
-			g2d.fillRect(360, 610, 70, 90);
+			g2d.setColor(Color.BLUE);
+			g2d.fillRect(410, 610, 200, 90);
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("Small Commercial", 420, 650);
+			//TREE
+			g2d.setColor(Color.BLUE);
+			g2d.fillRect(620, 610, 200, 90);
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("Tree", 690, 650);
 			//High commercial
-			g2d.fillRect(440, 610, 70, 90);
+			g2d.setColor(Color.BLUE);
+			g2d.fillRect(830, 610, 200, 90);
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("Large Commercial", 840, 650);
+			
 
 			g.setColor(Color.BLACK);
 			for (GameObject obj : grids.values()) {
@@ -154,7 +169,7 @@ public class Main implements MouseInputListener, MouseListener {
 						g.drawImage(lowRes.get(((ResidentialBuilding)obj).getIndex()), obj.getX(), obj.getY(), 30, 30, null);
 					}
 				}
-				else if(obj instanceof CommercialBuilding) {
+				else if(obj instanceof CommercialBuilding) { //tree
 					if(((CommercialBuilding)obj).isHigh()) {
 						g.drawImage(highCom.get(((CommercialBuilding)obj).getIndex()), obj.getX(), obj.getY(), 30, 30, null);
 					}
@@ -203,6 +218,15 @@ public class Main implements MouseInputListener, MouseListener {
             		}
 				}
 			}
+
+			if (end){
+				super.paint(g);
+				ImageIcon icon = new ImageIcon("game_objects/images/loseScreen.png");
+				Image lose = icon.getImage();
+				g.drawImage(lose, 0, 0, 1140, 700, null);
+
+			}
+
 			repaint();
 		}
 	}
@@ -230,28 +254,28 @@ public class Main implements MouseInputListener, MouseListener {
 				}
 				placing = true;
 			}
-			else if(e.getX()>=200 && e.getX()<=270 && e.getY()>=610 && e.getY()<=700){
+			else if(e.getX()>=200 && e.getX()<=400 && e.getY()>=610 && e.getY()<=700){
 				if(!placingLowRes) {
 					placingLowRes = true;
 					lowResIndex = GenericUtilities.randomIndex(lowRes);
 				}
 				placing = true;
 			}
-			else if(e.getX()>=280 && e.getX()<=350 && e.getY()>=610 && e.getY()<=700){
+			else if(e.getX()>=410 && e.getX()<=610 && e.getY()>=610 && e.getY()<=700){
 				if(!placingLowCom) {
 					placingLowCom = true;
 					lowComIndex = GenericUtilities.randomIndex(lowCom);
 				}
 				placing = true;
 			}
-			else if(e.getX()>=360 && e.getX()<=430 && e.getY()>=610 && e.getY()<=700){
+			else if(e.getX()>=620 && e.getX()<=820 && e.getY()>=610 && e.getY()<=700){
 				if(!placingHighRes) {
 					placingHighRes = true;
 					highResIndex = GenericUtilities.randomIndex(highRes);
 				}
 				placing = true;
 			}
-			else if(e.getX()>=440 && e.getX()<=510 && e.getY()>=610 && e.getY()<=700){
+			else if(e.getX()>=830 && e.getX()<=1030 && e.getY()>=610 && e.getY()<=700){
 				if(!placingHighCom) {
 					placingHighCom = true;
 					highComIndex = GenericUtilities.randomIndex(highCom);
@@ -278,7 +302,7 @@ public class Main implements MouseInputListener, MouseListener {
 				System.out.println("Placed block");
 				if(placingRoad) {
 					placingRoad = false;
-					money-=10;
+					money-=20;
 					Road r = new Road(coords[0], coords[1], roadRotation);
 					grids.put(coords, r);
 					//CHANGE THIS
@@ -294,7 +318,7 @@ public class Main implements MouseInputListener, MouseListener {
 				}
 				if(placingHighRes) {
 					placingHighRes = false;
-					money -= 700;
+					money -= 70;
 					ResidentialBuilding b = new ResidentialBuilding(coords[0], coords[1], true, new State(highResIndex));
 					grids.put(coords, b);
 					grid[coords[0]/30][coords[1]/30] = b;
@@ -308,7 +332,7 @@ public class Main implements MouseInputListener, MouseListener {
 				}
 				if(placingHighCom) {
 					placingHighCom = false;
-					money -= 100;
+					money -= 175;
 					CommercialBuilding c = new CommercialBuilding(coords[0], coords[1], true, new State(highComIndex));
 					grids.put(coords, c);
 					grid[coords[0]/30][coords[1]/30] = c;
@@ -367,10 +391,55 @@ public class Main implements MouseInputListener, MouseListener {
 		}
 	}
 	
+	// calculating cost for each adjacent tile for pathfinding of cars
 	public int cost(int startX, int startY, int finalX, int finalY) {
 		return (finalX - startX) + (finalY - startY);
 	}
 	
+	//checking if right tile is a Road
+	public boolean isRightRoad(Car car) {
+		
+		try {
+
+			return (grid[car.getY()][car.getX() + 1]) instanceof Road;
+		}
+		catch (ArrayIndexOutOfBoundsException e){
+			return false;
+		}
+	}
+
+	//checking if above tile is a Road
+	public boolean isUpRoad(Car car) {
+		try {
+
+			return (grid[car.getY() - 1][car.getX()]) instanceof Road;
+		}
+		catch (ArrayIndexOutOfBoundsException e){
+			return false;
+		}
+	}
+
+	//checking if left tile is a Road
+	public boolean isLeftRoad(Car car) {
+		try {
+
+			return (grid[car.getY()][car.getX() - 1]) instanceof Road;
+		}
+		catch (ArrayIndexOutOfBoundsException e){
+			return false;
+		}
+	}
+
+	//checkign if below tile is a Road
+	public boolean isDownRoad(Car car) {
+		try {
+			return (grid[car.getY() + 1][car.getX()]) instanceof Road;
+		}
+		catch (ArrayIndexOutOfBoundsException e){
+			return false;
+		}
+	}
+
 	public static ArrayList<Road> getPath(ArrayList<Road> p, Node n, GameObject end, Set<Node> closed, boolean[] b) {
 		int closedHas = 0;
 		p.add(n.getRoad());
@@ -533,7 +602,7 @@ public class Main implements MouseInputListener, MouseListener {
 		// "blank cursor");
 
 		// Set the blank cursor to the JFrame.
-		// frame.getContentPane().setCursor(blankCursor)ccccccccccccc;
+		// frame.getContentPane().setCursor(blankCursor);
 		// }
 	}
 
@@ -544,18 +613,18 @@ public class Main implements MouseInputListener, MouseListener {
 		icon = new ImageIcon("game_objects/images/residential buildings/house 2.png");
 		Image house2 = icon.getImage();
 		lowRes.add(house2);
-		icon = new ImageIcon("game_objects/images/residential buildings/residential_1.png");
-		Image residential1 = icon.getImage();
-		highRes.add(residential1);
-		icon = new ImageIcon("game_objects/images/residential buildings/residential_2.png");
-		Image residential2 = icon.getImage();
-		highRes.add(residential2);
-		icon = new ImageIcon("game_objects/images/residential buildings/residential_3.png");
-		Image residential3 = icon.getImage();
-		highRes.add(residential3);
-		icon = new ImageIcon("game_objects/images/residential  buildings/residential_4.png");
-		Image residential4 = icon.getImage();
-		highRes.add(residential4);
+		icon = new ImageIcon("game_objects/images/residential buildings/tree1.png");
+		Image tree1 = icon.getImage();
+		highRes.add(tree1);
+		//icon = new ImageIcon("game_objects/images/residential buildings/tree1.png");
+		//Image residential2 = icon.getImage();
+		//highRes.add(residential2);
+		//icon = new ImageIcon("game_objects/images/residential buildings/residential_3.png");
+		//Image residential3 = icon.getImage();
+		//highRes.add(residential3);
+		//icon = new ImageIcon("game_objects/images/residential  buildings/residential_4.png");
+		//Image residential4 = icon.getImage();
+		//highRes.add(residential4);
 	}
 	public static void initCommercials() {
 		ImageIcon icon = new ImageIcon("game_objects/images/commercial/commercial1.png");
@@ -572,6 +641,11 @@ public class Main implements MouseInputListener, MouseListener {
 		highCom.add(tower1);
 	}
 
+	//public static void initTree() {
+	//	ImageIcon icon = new ImageIcon("game_objects/images/residential buildings/tree1.png");
+	//	Image t1 = icon.getImage();
+	//	tree.add(t1);
+	//}
 
 	class Keychecker extends KeyAdapter {
 		@Override
@@ -587,6 +661,8 @@ public class Main implements MouseInputListener, MouseListener {
 			}
     	}
 	}
+
+
 
 	
 }

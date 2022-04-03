@@ -5,7 +5,7 @@ public class Tick extends TimerTask {
     public void run() {
         if(Math.random() > 0.5) {
             Car testc = new Car((int)(Math.random()*40)*30, (int)(Math.random()*22)*30);
-            if (Main.grid[testc.getX()/30][testc.getY()/30] instanceof Road){
+            if (Main.grid[testc.getX()/30][testc.getY()/30] instanceof GameObject){
                 //spawn
                 Main.carsOnRoad.add(testc);
             }
@@ -18,9 +18,10 @@ public class Tick extends TimerTask {
         for(int i = 0; i < Main.carsOnRoad.size(); i++) {
             Car car = Main.carsOnRoad.get(i);
             if(car.getPath().size() == 0) {
-				Road dest = new Road((int)(Math.random()*40)*30, (int)(Math.random()*22)*30);
-                if(dest.getX() != car.getX() || dest.getY() != car.getY()) {
-				    car.setPath(Main.pathfind2(car, Main.grid[car.getX()/30][car.getY()/30], dest));
+				int x = (int)(Math.random()*40)*30;
+                int y = (int)(Math.random()*22)*30;
+                if(x != car.getX() || y != car.getY() && Main.grid[x/30][y/30] instanceof GameObject) {
+				    car.setPath(Main.pathfind2(car, Main.grid[car.getX()/30][car.getY()/30], Main.grid[x/30][y/30]));
 				    if(car.getPath().size() == 0) {
 					    Main.carsOnRoad.remove(i);
                         i--;

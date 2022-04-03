@@ -12,20 +12,35 @@ public class ResidentialBuilding extends GameObject{ //pollution, population
     public ResidentialBuilding(int x, int y, boolean high) {
         super(x, y); 
         
-        population+=10;
+        
         numBuild++;
-        pollution+=20;
+        
         state = new State(0);
         this.high = high;
+        if (high){
+            //tree
+            pollution-=15;
+        }
+        else{
+            pollution+=15;
+            population+=10;
+        }
     }
     public ResidentialBuilding(int x, int y, boolean high, State s) {
         super(x, y);
        
-        population+=10;
+       
         numBuild++;
-        pollution+=20;
+        
         state = s;
         this.high = high;
+        if (high){
+            pollution-=15;//tree btw
+        }
+        else{
+            pollution+=15;
+            population+=10;
+        }
     }
 
     public boolean isHigh() {

@@ -1,32 +1,38 @@
 package game_objects; //make spawn randomly  in places with no buildings
 public class Tree extends GameObject{ //pollution
-    private boolean visible = false;
-    private int health;
-    private int appearance;
+    private static int numBuild=0;
     private static int pollution=0;
+    private State state;
 
     public Tree(int x, int y){
         super(x, y);
-        health = 100;
-        visible = true;
-        appearance = 0;
-        pollution -= 10;
+        numBuild++;
+        state = new State(0);
+        pollution -= 15;
+    }
+    public Tree(int x, int y, State s) {
+        super(x, y);
+       
+       
+        numBuild++;
+        
+        state = s;
+        pollution-=15;
     }
     
-    public boolean chop(int b){
-        health -= 50;
-        if (health <= 0){
-            visible = false;
-            pollution+=10;
-            // make if u chop a tree 50$ u get
-        }
-        else{
-            appearance = 1;
-        }
-        return visible;
-    }
-
     public static int getPollution(){
         return pollution;
+    }
+
+    public static int getBuilt(){
+        return numBuild;
+    }
+
+    public int getIndex() {
+        return state.getIndex();
+    }
+    
+    public void setIndex(int i) {
+        state.setIndex(i);
     }
 }
