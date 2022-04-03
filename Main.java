@@ -167,7 +167,8 @@ public class Main implements MouseInputListener, MouseListener {
 				money-=100;
 				Road r = new Road(coords[0], coords[1], roadRotation);
 				grids.put(coords, r);
-				grid[0][1] = r;
+				grid[coords[0]][coords[1]] = r;
+				r.changeIndexes(coords[0], coords[1], grid);
 			}
 			else {
 				placingRoad = false;

@@ -22,15 +22,36 @@ public class Road extends GameObject {
     public void setIndex(int i) {
         state.setIndex(i);
     }
-    // updating road type o
+    // updating road type of placed and neighboring road
     public void changeIndexes(int coordX, int coordY, GameObject[][] g) {
-        g[coordX][coordY].sedetermine(coordX, coordY, g);
-        determine(coordX - 30, coordY, g);
-        determine(coordX + 30, coordY, g);
-        determine(coordX, coordY - 30, g);
-        determine(coordX, coordY - 30, g);
+        ((Road)g[coordX][coordY]).setIndex(determine(coordX, coordY, g));
+        if(coordX - 30 >= 0) {
+            try {
+                ((Road)g[coordX - 30][coordY]).setIndex(determine(coordX - 30, coordY, g));
+            }
+            catch(Exception e) {}
+        }
+        if(coordX + 30 <= 1140) {
+            try {
+                ((Road)g[coordX + 30][coordY]).setIndex(determine(coordX + 30, coordY, g));
+            }
+            catch(Exception e) {}
+        }
+        if(coordY - 30 >= 0) {
+            try {
+                ((Road)g[coordX][coordY - 30]).setIndex(determine(coordX, coordY - 30, g));
+            }
+            catch(Exception e) {}
+        }
+        if(coordY + 30 <= 600) {
+            try {
+                ((Road)g[coordX][coordY + 30]).setIndex(determine(coordX, coordY - 30, g));
+            }
+            catch(Exception e) {}
+        }
     }
     public int determine(int coordX, int coordY, GameObject[][] g) {
+        
         int index = 0;
         int connections = 0;
         boolean left = false;
