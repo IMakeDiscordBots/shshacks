@@ -1,5 +1,5 @@
-<h1>shshacks</h1>
-
+# shshacks 
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ===============================================================
 <br>pay attention to our roads they are very cool
 
@@ -25,7 +25,7 @@
 
 
 
-*EN
+### EN
 <h1>This is an extremely fun city builder game</h1>
 
 ### Gameplay
@@ -46,28 +46,30 @@ Build your dream city!!
 
 
 
-*ES
-Este es un juego de construcción de ciudades extremadamente divertido.
+### ES
 
-Como se Juega
+<h1>Este es un juego de construcción de ciudades extremadamente divertido.</h1>
+
+### Como se Juega
 Haga clic en los distintos botones en la parte inferior para seleccionar edificios
 Los edificios vienen con varios efectos sobre la población, la felicidad, la contaminación y los ingresos.
 
-Si la contaminación supera los 500 o la población cae a 0, tu ciudad será destruida por no ser sostenible y el juego terminará.
+### Si la contaminación supera los 500 o la población cae a 0, tu ciudad será destruida por no ser sostenible y el juego terminará.
 
 ¡Construye la ciudad de tus sueños!
 
 
 
 
-*Dead Langauge
-Hoc ludo aedificationis urbis maxime fun.
+### Dead Langauge
 
-quomodo ludere
+<h1>Hoc ludo aedificationis urbis maxime fun.</h1>
+
+### quomodo ludere
 Click in variis globulis in fundo aedificia eligere
 Aedificia cum variis effectibus veniunt in multitudine, felicitate, pollutione, reditibus.
 
-Si pollutio 500 vel incolarum guttas ad 0 excedit, civitas tua destruetur sicut inconstans et ludus finis erit.
+### Si pollutio 500 vel incolarum guttas ad 0 excedit, civitas tua destruetur sicut inconstans et ludus finis erit.
 
 Aedificare urbem somniorum tuorum!
 
@@ -80,11 +82,11 @@ Aedificare urbem somniorum tuorum!
 
 
 
-
-Co-authored-by: BillGuo1 <BillGuo1@users.noreply.github.com>
-Co-authored-by: Nyaruko69 <Nyaruko69@users.noreply.github.com>
-Co-authored-by: ChicagoStylePizza <ChicagoStylePizza@users.noreply.github.com>
-Co-authored-by: tli24 <tli24@users.noreply.github.com>
-
+<ul>
+  <li>Co-authored-by: BillGuo1 <BillGuo1@users.noreply.github.com></li>
+  <li>Co-authored-by: Nyaruko69 <Nyaruko69@users.noreply.github.com></li>
+  <li>Co-authored-by: ChicagoStylePizza <ChicagoStylePizza@users.noreply.github.com></li>
+  <li>Co-authored-by: tli24 <tli24@users.noreply.github.com></li>
+</ul>
 
 
