@@ -3,7 +3,7 @@ package game_objects;
 import javax.swing.ImageIcon;
 import java.awt.*;
 
-public class Road extends GameObject { //pollution
+public class Road extends GameObject {
     public static final int roadRotation = 0;
 	private static int pollution = 10;
     private RoadState state;
@@ -57,24 +57,24 @@ public class Road extends GameObject { //pollution
         boolean right = false;
         boolean up = false;
         boolean down = false;
-        if((coordX - 30) - (coordX % 30) >= 0) {
+        if(coordX - 30 >= 0) {
             if(g[coordX - 30 - (coordX % 30)][coordY] instanceof Road) {
                 connections++;
                 left = true;
             }
         }
-        if(coordX + 30 - (coordX % 30) <= 1140) {
+        if(coordX + 30 <= 1140) {
             if(g[coordX + 30 - (coordX % 30)][coordY] instanceof Road) {
                 connections++;
                 right = true;
             }
         }
-        if(coordY - 30 - (coordY % 30) >= 0) {
+        if(coordY - 30 >= 0) {
             if(g[coordX][coordY - 30 - (coordY % 30)] instanceof Road) {
                 connections++;
                 up = true;
             }
-        
+        }
         if(coordY + 30 <= 600) {
             if(g[coordX][coordY + 30 - (coordY % 30)] instanceof Road) {
                 connections++;
