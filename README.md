@@ -87,6 +87,7 @@ Aedificare urbem somniorum tuorum!
   <li>Co-authored-by: Nyaruko69 <Nyaruko69@users.noreply.github.com></li>
   <li>Co-authored-by: ChicagoStylePizza <ChicagoStylePizza@users.noreply.github.com></li>
   <li>Co-authored-by: tli24 <tli24@users.noreply.github.com></li>
+  <li>Co-authored-by: IMakeDiscordBots <IMakeDiscordBots@users.noreply.github.com></li>
 </ul>
 
 
