@@ -1,5 +1,5 @@
 # shshacks
-This is a tower defense game
+This is a tower defense game (not anymore)
 
 TOnk
 
