@@ -7,14 +7,17 @@ public class Road extends GameObject {
     public static final int roadRotation = 0;
 	private static int pollution = 10;
     private State state;
+    private Node node;
     
     public Road(int x, int y) {
         super(x, y);
         state = new State(0);
+        node = new Node(this);
     }
     public Road(int x, int y, int i) {
         super(x, y);
         state = new State(i);
+        node = new Node(this);
     }
     public int getIndex() {
         return state.getIndex();
@@ -64,6 +67,8 @@ public class Road extends GameObject {
             if(g[coordX - 1][coordY] instanceof Road) {
                 connections++;
                 left = true;
+                ((Road)g[coordX][coordY]).getNode().setLeft(((Road)g[coordX - 1][coordY]).getNode());
+                ((Road)g[coordX - 1][coordY]).getNode().setRight(((Road)g[coordX][coordY]).getNode());
                 if (left){
                     System.out.print("Left");
                 }
@@ -73,7 +78,9 @@ public class Road extends GameObject {
             if(g[coordX + 1][coordY] instanceof Road) {
                 connections++;
                 right = true;
-                if (right){
+                ((Road)g[coordX][coordY]).getNode().setRight(((Road)g[coordX + 1][coordY]).getNode());
+                ((Road)g[coordX + 1][coordY]).getNode().setLeft(((Road)g[coordX][coordY]).getNode());
+                if (right) {
                     System.out.print("Right");
                 }
             }
@@ -82,6 +89,8 @@ public class Road extends GameObject {
             if(g[coordX][coordY - 1] instanceof Road) {
                 connections++;
                 up = true;
+                ((Road)g[coordX][coordY]).getNode().setTop(((Road)g[coordX][coordY - 1]).getNode());
+                ((Road)g[coordX][coordY - 1]).getNode().setDown(((Road)g[coordX][coordY]).getNode());
                 if (up){
                     System.out.print("Up");
                 }
@@ -91,6 +100,8 @@ public class Road extends GameObject {
             if(g[coordX][coordY + 1] instanceof Road) {
                 connections++;
                 down = true;
+                ((Road)g[coordX][coordY]).getNode().setDown(((Road)g[coordX][coordY + 1]).getNode());
+                ((Road)g[coordX][coordY + 1]).getNode().setTop(((Road)g[coordX][coordY]).getNode());
                 if (down){
                     System.out.print("Down");
                 }
@@ -144,7 +155,20 @@ public class Road extends GameObject {
         return index;
     }
 
+    public Node getNode() {
+        return node;
+    }
+
     public static int getPollution(){
         return pollution;
+    }
+    public boolean equals(Road r) {
+        if(getX() == r.getX() && getY() == r.getY()) {
+            return true;
+        }
+        return false;
+    }
+    public String toString() {
+        return getX() + " " + getY();
     }
 }

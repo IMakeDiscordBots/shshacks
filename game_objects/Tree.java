@@ -1,9 +1,9 @@
-package game_objects;
+package game_objects; //make spawn randomly  in places with no buildings
 public class Tree extends GameObject{ //pollution
     private boolean visible = false;
     private int health;
     private int appearance;
-    private static int pollution;
+    private static int pollution=0;
 
     public Tree(int x, int y){
         super(x, y);

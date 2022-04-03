@@ -1,7 +1,7 @@
-package game_objects;
+package game_objects; //unused in final project, placeholder
 public class Energy extends GameObject{ //pollution, happy, energy
     
-    private int a, b;
+
     private static int energy;
     private static int numBuild;
     private static int pollution;
@@ -9,8 +9,7 @@ public class Energy extends GameObject{ //pollution, happy, energy
 
     public Energy(int x, int y, int e, int c, int d){
         super(x, y);
-        a = x;
-        b = y;
+
         energy+=e;
         numBuild++;
         pollution+=c;
@@ -26,7 +25,7 @@ public class Energy extends GameObject{ //pollution, happy, energy
     public static int getPollution(){
         return pollution;
     }
-    public int getHappy(){
+    public static int getHap(){
         return happiness;
     }
 

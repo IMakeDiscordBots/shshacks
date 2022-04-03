@@ -1,29 +1,44 @@
 package game_objects;
 
 public class CommercialBuilding extends GameObject{ //pollution, population
-    private int a, b;
-    private static int numBuild;
-    private static int pollution;
-    private int income;
+
+    private static int numBuild=0;
+    private static int pollution=0;
+    private static int revenue=0;
+    private static int happy=0;
     private State state;
     private boolean high;
     public CommercialBuilding(int x, int y, boolean high){
         super(x, y);
-        a = x;
-        b = y;
+
         numBuild++;
-        pollution+=20;
+       
         state = new State(0);
         this.high = high;
+        if (high){
+            pollution+=40;
+            revenue+=10;
+        }
+        else{
+            pollution+=15;
+            revenue+=5;
+        }
     }
     public CommercialBuilding(int x, int y, boolean high, State s){
         super(x, y);
-        a = x;
-        b = y;
+
         numBuild++;
-        pollution+=20;
+        happy+=15;
         state = s;
         this.high = high;
+        if (high){
+            pollution+=40;
+            revenue+=10;
+        }
+        else{
+            pollution+=15;
+            revenue+=5;
+        }
     }
 
     public boolean isHigh() {
@@ -41,10 +56,14 @@ public class CommercialBuilding extends GameObject{ //pollution, population
         return numBuild;
     }
 
-    public int getIncome() {
-        return income;
+    public static int getRevenue() {
+        return revenue;
     }
     
+    public static int getHap(){
+        return happy;
+    }
+
     public void setIndex(int i) {
         state.setIndex(i);
     }

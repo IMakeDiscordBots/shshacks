@@ -2,17 +2,16 @@ package game_objects;
 
 public class ResidentialBuilding extends GameObject{ //pollution, population
     
-    private int a, b;
-    private static int population;
-    private static int numBuild;
-    private static int pollution;
+    
+    private static int population=0;
+    private static int numBuild=0;
+    private static int pollution=0;
     private State state;
     private boolean high;
 
     public ResidentialBuilding(int x, int y, boolean high) {
         super(x, y); 
-        a = x;
-        b = y;
+        
         population+=10;
         numBuild++;
         pollution+=20;
@@ -21,8 +20,7 @@ public class ResidentialBuilding extends GameObject{ //pollution, population
     }
     public ResidentialBuilding(int x, int y, boolean high, State s) {
         super(x, y);
-        a = x;
-        b = y;
+       
         population+=10;
         numBuild++;
         pollution+=20;

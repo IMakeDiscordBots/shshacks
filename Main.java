@@ -19,9 +19,13 @@ import java.awt.event.KeyAdapter;
 
 
 public class Main implements MouseInputListener, MouseListener {
-	static int money = 50000;
+	public static ArrayList<Car> carsOnRoad = new ArrayList<Car>();
+	//public static ArrayList<Tree> treesInCity = new ArrayList<Tree>();
+	static int money = 500;
 	static int pollution = 0;
 	static int population = 100;
+	static String severity = "Clean";
+	static int happy = 100;
 	static boolean end = false;
 
 	static int roadRotation = 0;
@@ -52,13 +56,15 @@ public class Main implements MouseInputListener, MouseListener {
 	int cursorXCoord = MouseInfo.getPointerInfo().getLocation().x;
 	int cursorYCoord = MouseInfo.getPointerInfo().getLocation().y;
 	// Divide/multiply by thirty
-	GameObject[][] grid = new GameObject[40][22];
+	static GameObject[][] grid = new GameObject[40][22];
 	Map<int[], GameObject> grids = new HashMap<int[], GameObject>();
 
 	public static void main(String[] args) {
 		Timer whiteTimer = new Timer();
 		TimerTask whiteTimerTask = new ClockTask();
-		whiteTimer.scheduleAtFixedRate(whiteTimerTask, 1000, 3000);
+		whiteTimer.scheduleAtFixedRate(whiteTimerTask, 1000, 4000-(happy*8)); //slower with less happy
+		TimerTask carTicking = new Tick();
+		whiteTimer.scheduleAtFixedRate(carTicking, 20000, 100);
 		System.out.println("test");
 		initRoads();
 		initResidentials();
@@ -102,12 +108,27 @@ public class Main implements MouseInputListener, MouseListener {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 600, 1140, 10);
 
+			g2d.setColor(Color.BLUE);
 			g2d.setFont(new Font("Monospace", Font.BOLD, 25));
-			// g2d.setColor(new Color(124,252,0)); color is too bright?
 			g2d.setColor(new Color(0, 0, 0));
 			g2d.drawString("$" + money + "", 10, 645);
-			g2d.drawString(population+" people in your city", 10, 20);
-			g2d.drawString(pollution+" pollution levels", 10, 50);
+			g2d.drawString("Number of People in Your City: " + population, 10, 20);
+			g2d.drawString("The Pollution Level: " + pollution,  10, 50);
+			g2d.drawString("The Happiness Level: " + happy, 10, 80);
+			if (pollution <= 75) {
+				Main.severity = "Clean";
+			} else if (pollution <= 150){
+				Main.severity = "Moderately Unhealthy";
+			} else if (pollution <= 200) {
+				Main.severity = "Unhealthy";
+			} else if (pollution <= 300) {
+				Main.severity = "Very Unhealthy";
+				population -= (Math.floor(Math.random() * 4));
+			} else {
+				population -= 7;
+				Main.severity = "Very Severe";
+			}
+			g2d.drawString("Severity Level: " + severity, 10, 110);
 			
 			g2d.setColor(Color.BLUE);
 			g2d.fillRect(120, 610, 70, 90);
@@ -121,12 +142,6 @@ public class Main implements MouseInputListener, MouseListener {
 			g2d.fillRect(440, 610, 70, 90);
 
 			g.setColor(Color.BLACK);
-			if (placingRoad) {
-				g.drawImage(roads.get(roadRotation), cursorXCoord - 20, cursorYCoord - 35, 30, 30, null);
-			}
-			if(placingLowRes) {
-				g.drawImage(lowRes.get(lowResIndex), cursorXCoord - 20, cursorYCoord - 35, 30, 30, null);
-			}
 			for (GameObject obj : grids.values()) {
 				if (obj instanceof Road) {
 					g.drawImage(roads.get(((Road) obj).getIndex()), obj.getX(), obj.getY(), 30, 30, null);
@@ -139,10 +154,55 @@ public class Main implements MouseInputListener, MouseListener {
 						g.drawImage(lowRes.get(((ResidentialBuilding)obj).getIndex()), obj.getX(), obj.getY(), 30, 30, null);
 					}
 				}
+				else if(obj instanceof CommercialBuilding) {
+					if(((CommercialBuilding)obj).isHigh()) {
+						g.drawImage(highCom.get(((CommercialBuilding)obj).getIndex()), obj.getX(), obj.getY(), 30, 30, null);
+					}
+					else {
+						g.drawImage(lowCom.get(((CommercialBuilding)obj).getIndex()), obj.getX(), obj.getY(), 30, 30, null);
+					}
+				}
+			}
+			if (placingRoad) {
+				g.drawImage(roads.get(roadRotation), cursorXCoord - 20, cursorYCoord - 35, 30, 30, null);
+			}
+			if(placingLowRes) {
+				g.drawImage(lowRes.get(lowResIndex), cursorXCoord - 20, cursorYCoord - 35, 30, 30, null);
+			}
+			if(placingLowCom) {
+				g.drawImage(lowCom.get(lowComIndex), cursorXCoord - 20, cursorYCoord - 35, 30, 30, null);
+			}
+			if(placingHighRes) {
+				g.drawImage(highRes.get(highResIndex), cursorXCoord - 20, cursorYCoord - 35, 30, 30, null);
+			}
+			if(placingHighCom) {
+				g.drawImage(highCom.get(highComIndex), cursorXCoord - 20, cursorYCoord - 35, 30, 30, null);
 			}
 			// Image img2 = icon.getImage();
 			// g2d.drawImage(img2, 10, 10, null);
 
+			//Draw cars
+			g2d.setColor(Color.RED);
+			for(Car car : carsOnRoad) {
+				if(car.getPath().size() > 1) {
+					//Left
+					if(car.getPath().get(car.getIndex() + 1).getX() < car.getX()) {
+						g2d.fillRect(car.getPath().get(0).getX() + 20, car.getPath().get(0).getY() - 4, 6, 6);
+					}
+					//Up
+					if(car.getPath().get(car.getIndex() + 1).getY() < car.getY()) {
+                		g2d.fillRect(car.getPath().get(0).getX() + 20, car.getPath().get(0).getY() + 24, 6, 6);
+            		}
+					//Down
+					if(car.getPath().get(car.getIndex() + 1).getY() > car.getY()) {
+						g2d.fillRect(car.getPath().get(0).getX() + 4, car.getPath().get(0).getY(), 6, 6);
+            		}
+					//Right
+					if(car.getPath().get(car.getIndex() + 1).getX() > car.getX()) {
+                		g2d.fillRect(car.getPath().get(0).getX() + 6, car.getPath().get(0).getY() + 20, 6, 6);
+            		}
+				}
+			}
 			repaint();
 		}
 	}
@@ -242,12 +302,24 @@ public class Main implements MouseInputListener, MouseListener {
 				if(placingLowCom) {
 					placingLowCom = false;
 					money -= 100;
+					CommercialBuilding c = new CommercialBuilding(coords[0], coords[1], false, new State(lowComIndex));
+					grids.put(coords, c);
+					grid[coords[0]/30][coords[1]/30] = c;
+				}
+				if(placingHighCom) {
+					placingHighCom = false;
+					money -= 100;
+					CommercialBuilding c = new CommercialBuilding(coords[0], coords[1], true, new State(highComIndex));
+					grids.put(coords, c);
+					grid[coords[0]/30][coords[1]/30] = c;
 				}
 			}
 			else {
 				placingRoad = false;
 				placingLowRes = false;
 				placingHighRes = false;
+				placingLowCom = false;
+				placingHighCom = false;
 			}
 			placing = false;
 		}
@@ -275,35 +347,139 @@ public class Main implements MouseInputListener, MouseListener {
 		// TODO Auto-generated method stub
 	}
 
-	public void pathfind(Car a, GameObject a, GameObject b) { // pathfinding algorithm for cars in city
-		int w = a.getX();
-		int x = a.getY();
-		int y = b.getX();
-		int z = b.getY();
+	
 
-		int chX = w-y;
-		int chY = x-z;
-		if (w-y<0){
-			chX*=-1;
+	public static ArrayList<Road> pathfind2(Car car, GameObject a, GameObject b) {
+		ArrayList<Node> openList = new ArrayList<Node>();
+		Set<Node> closedList = new HashSet<Node>();
+
+		Node first = ((Road)grid[a.getX()/30][a.getY()/30]).getNode();
+		
+		boolean[] bool = {false};
+		ArrayList<Road> path = getPath(new ArrayList<Road>(), first, b, closedList, bool);
+		System.out.println(path);
+		if(path.size() > 0 && checkForBuilding(path.get(path.size() - 1), b)) {
+			return path;
 		}
-		if (x-z<0){
-			chY*=-1;
+		else {
+			path = new ArrayList<Road>();
+			return path;
 		}
-
-		//check if there are chX roads between car and gameobject
-
-		//check if there are chY roads between car and gameobject
-
-		//if no, then no path is possible
-
-		//if road present
-		//move horizontally
-		//else
-		//move vertically
-		//repeat
-		//
-		// 
 	}
+	
+	public int cost(int startX, int startY, int finalX, int finalY) {
+		return (finalX - startX) + (finalY - startY);
+	}
+	
+	public static ArrayList<Road> getPath(ArrayList<Road> p, Node n, GameObject end, Set<Node> closed, boolean[] b) {
+		int closedHas = 0;
+		p.add(n.getRoad());
+		
+		ArrayList<int[]> openList = new ArrayList<int[]>();
+
+		
+		//Check if building is connected to the road (right, up, left, down order) || grid[b.getX()][b.getY() - 1] instanceof Road || grid[b.getX() - 1][b.getY()] instanceof Road
+		/*if(((GameObject)(grid[start.getX() + 1][start.getY()])) instanceof Road) {
+			ArrayList.add({start.getX(), start.getY(), cost(grid[start.getX() + 1][start.getY()].getX(), grid[start.getX() + 1][start.getY()].getY(), end.getX(), end.getY()});
+		}*/
+		if(checkForBuilding(n.getRoad(), end) || b[0]) {
+			System.out.println("Found building at " + p);
+			b[0] = true;
+			return p;
+		}
+		closed.add(n);
+		try {
+			if(!b[0]) {
+				if(!closed.contains(n.getRight())) {
+					System.out.println("Entering recursion");
+					p = getPath(p, n.getRight(), end, closed, b);
+				}
+				else {
+					closedHas++;
+				}
+			}
+		}
+		catch(Exception e) { System.out.println("Does not have right node");}
+		try {
+			if(!b[0]) {
+				if(!closed.contains(n.getLeft())) {
+					System.out.println("Entering recursion");
+					p = getPath(p, n.getLeft(), end, closed, b);
+				}
+				else {
+					closedHas++;
+				}
+			}
+		}
+		catch(Exception e) { System.out.println("Does not have left node");}
+		try {
+			if(!b[0]) {
+				if(!closed.contains(n.getTop())) {
+					System.out.println("Entering recursion");
+					p = getPath(p, n.getTop(), end, closed, b);
+				}
+				else {
+					closedHas++;
+				}
+			}
+		}
+		catch(Exception e) { System.out.println("Does not have top node");}
+		try {
+			if(!b[0]) {
+				if(!closed.contains(n.getDown())) {
+					System.out.println("Entering recursion");
+					p = getPath(p, n.getDown(), end, closed, b);
+				}
+				else {
+					closedHas++;
+				}
+			}
+		}
+		catch(Exception e) { System.out.println("Does not have bottom node");}
+		if(closedHas >= n.count()) {
+			System.out.println("No tiles connected");
+			p.remove(n.getRoad());
+			return p;
+		}
+		if(!b[0]) {
+			p.remove(n.getRoad());
+		}
+		return p;
+	}
+	public static boolean checkForBuilding(Road r, GameObject b) {
+		if(r.getX() - 30 >= 0) {
+            if(r.getX() - 30 == b.getX() && r.getY() == b.getY()) {
+                return true;
+            }
+        }
+        if(r.getX() + 30 < 1140) {
+            if(r.getX() + 30 == b.getX() && r.getY() == b.getY()) {
+                return true;
+            }
+        }
+        if(r.getY() - 30 >= 0) {
+            if(r.getX() == b.getX() && r.getY() - 30 == b.getY()) {
+                return true;
+            }
+        }
+        if(r.getY() + 30 < 600) {
+            if(r.getX() == b.getX() && r.getY() + 30 == b.getY()) {
+                return true;
+            }
+        }
+		return false;
+	}
+
+	//check if there are chX roads between car and gameobject
+		
+	//check if there are chY roads between car and gameobject
+		
+	//if no, then no path is possible
+
+	//calculate all possible paths, compare, then choose least by how many grid spaces passed
+		
+		
+	
 
 	public static void initRoads() {
 		ImageIcon icon = new ImageIcon("game_objects/images/roads/roadTwowayV.png");
@@ -357,7 +533,7 @@ public class Main implements MouseInputListener, MouseListener {
 		// "blank cursor");
 
 		// Set the blank cursor to the JFrame.
-		// frame.getContentPane().setCursor(blankCursor);
+		// frame.getContentPane().setCursor(blankCursor)ccccccccccccc;
 		// }
 	}
 

@@ -1,21 +1,19 @@
 package game_objects;
 public class Services extends GameObject{  //happy, pollution
     
-    private int a, b;
-    private static int happiness;
-    private static int numBuild;
-    private static int pollution;
+
+    private static int happiness=0;
+    private static int numBuild=0;
+    private static int pollution=0;
 
     public Services(int x, int y, int c){
         super(x, y);
-        a = x;
-        b = y;
         happiness+=10;
         numBuild++;
         pollution+=c;
     }
 
-    public int getHap(int x){
+    public static int getHap(){
         return happiness;
     }
 
